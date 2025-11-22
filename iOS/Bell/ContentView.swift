@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var isProcessing = false
     @State private var errorMessage: String?
     @State private var alarmViewModel = AlarmViewModel()
+    @State private var showEditSheet = false
 
     private let textRecognition = TextRecognitionService()
 
@@ -40,6 +41,15 @@ struct ContentView: View {
                         .padding()
                 } else if let info = flightInfo {
                     FlightInfoCard(info: info)
+
+                    Button(action: {
+                        showEditSheet = true
+                    }) {
+                        Label("編集", systemImage: "pencil")
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                    }
+                    .padding(.horizontal)
 
                     if alarmViewModel.isAlarmActive {
                         HStack {
@@ -124,6 +134,11 @@ struct ContentView: View {
             }
             .padding()
             .navigationTitle("BoardingBell")
+            .sheet(isPresented: $showEditSheet) {
+                if let info = flightInfo {
+                    FlightInfoEditView(flightInfo: $flightInfo)
+                }
+            }
         }
     }
 
@@ -195,6 +210,57 @@ struct InfoRow: View {
                 .frame(width: 80, alignment: .leading)
             Text(value)
                 .fontWeight(.medium)
+        }
+    }
+}
+
+struct FlightInfoEditView: View {
+    @Binding var flightInfo: ExtractedFlightInfo?
+    @Environment(\.dismiss) var dismiss
+
+    @State private var flightNumber: String = ""
+    @State private var destination: String = ""
+    @State private var departureDate: Date = Date()
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("フライト情報") {
+                    TextField("便名", text: $flightNumber)
+                    TextField("行き先", text: $destination)
+                }
+
+                Section("出発時刻") {
+                    DatePicker("日時", selection: $departureDate)
+                }
+            }
+            .navigationTitle("編集")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("キャンセル") {
+                        dismiss()
+                    }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("保存") {
+                        flightInfo = ExtractedFlightInfo(
+                            flightNumber: flightNumber,
+                            departureDate: departureDate,
+                            destination: destination,
+                            gate: flightInfo?.gate
+                        )
+                        dismiss()
+                    }
+                }
+            }
+            .onAppear {
+                if let info = flightInfo {
+                    flightNumber = info.flightNumber
+                    destination = info.destination
+                    departureDate = info.departureDate
+                }
+            }
         }
     }
 }
