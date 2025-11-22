@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var flightInfo: ExtractedFlightInfo?
     @State private var isProcessing = false
     @State private var errorMessage: String?
+    @State private var alarmViewModel = AlarmViewModel()
 
     private let textRecognition = TextRecognitionService()
 
@@ -39,6 +40,46 @@ struct ContentView: View {
                         .padding()
                 } else if let info = flightInfo {
                     FlightInfoCard(info: info)
+
+                    if alarmViewModel.isAlarmActive {
+                        HStack {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.green)
+                            Text("アラーム設定済み")
+                                .fontWeight(.medium)
+                        }
+                        .padding()
+
+                        Button(action: {
+                            Task {
+                                await alarmViewModel.cancelAlarm()
+                            }
+                        }) {
+                            Label("アラームをキャンセル", systemImage: "alarm.slash")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.red)
+                                .cornerRadius(12)
+                        }
+                        .padding(.horizontal)
+                    } else {
+                        Button(action: {
+                            Task {
+                                await alarmViewModel.createAlarm(for: info)
+                            }
+                        }) {
+                            Label("アラームを設定", systemImage: "alarm")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.green)
+                                .cornerRadius(12)
+                        }
+                        .padding(.horizontal)
+                    }
                 } else {
                     Text("搭乗券を選択してください")
                         .font(.title2)
@@ -46,6 +87,13 @@ struct ContentView: View {
                 }
 
                 if let error = errorMessage {
+                    Text(error)
+                        .foregroundColor(.red)
+                        .font(.caption)
+                        .padding()
+                }
+
+                if let error = alarmViewModel.errorMessage {
                     Text(error)
                         .foregroundColor(.red)
                         .font(.caption)
