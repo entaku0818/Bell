@@ -26,19 +26,44 @@ class FlightDateParser {
     ]
 
     func parseDate(from text: String) -> Date? {
-        guard let dateString = extractDate(from: text) else {
-            print("日付が見つかりません")
-            return nil
-        }
+        let dateString = extractDate(from: text)
 
         guard let timeString = extractTime(from: text) else {
             print("時刻が見つかりません")
             return nil
         }
 
-        print("日付: \(dateString), 時刻: \(timeString)")
+        if let dateString = dateString {
+            print("日付: \(dateString), 時刻: \(timeString)")
+            return combineDateTime(dateString: dateString, timeString: timeString)
+        } else {
+            print("日付が見つかりません。今日の日付を使用します")
+            print("時刻: \(timeString)")
+            return combineTodayWithTime(timeString: timeString)
+        }
+    }
 
-        return combineDateTime(dateString: dateString, timeString: timeString)
+    private func combineTodayWithTime(timeString: String) -> Date? {
+        var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+
+        if timeString.contains(":") {
+            let parts = timeString.split(separator: ":").map { String($0) }
+            if parts.count == 2 {
+                components.hour = Int(parts[0])
+                components.minute = Int(parts[1])
+            }
+        } else if timeString.contains("時") {
+            let parts = timeString.replacingOccurrences(of: "時", with: " ")
+                .replacingOccurrences(of: "分", with: "")
+                .split(separator: " ")
+                .map { String($0) }
+            if parts.count == 2 {
+                components.hour = Int(parts[0])
+                components.minute = Int(parts[1])
+            }
+        }
+
+        return Calendar.current.date(from: components)
     }
 
     private func extractDate(from text: String) -> String? {
