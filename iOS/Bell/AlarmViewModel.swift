@@ -31,13 +31,24 @@ class AlarmViewModel {
             return
         }
 
-        let metadata = FlightAlarmMetadata(
-            flightNumber: flightInfo.flightNumber,
-            destination: flightInfo.destination,
-            departureDate: flightInfo.departureDate
+        // Create alarm presentation
+        let stopButton = AlarmButton(
+            text: "確認",
+            textColor: .white,
+            systemImageName: "checkmark.circle"
         )
 
-        let attributes = FlightAlarmData(metadata: metadata)
+        let alert = AlarmPresentation.Alert(
+            title: "\(flightInfo.flightNumber) 搭乗時刻です",
+            stopButton: stopButton
+        )
+
+        let presentation = AlarmPresentation(alert: alert)
+
+        let attributes = AlarmAttributes<FlightAlarmMetadata>(
+            presentation: presentation,
+            tintColor: .blue
+        )
 
         let countdownDuration = flightInfo.departureDate.timeIntervalSince(Date())
 

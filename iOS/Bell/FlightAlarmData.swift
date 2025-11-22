@@ -7,15 +7,10 @@
 
 import Foundation
 import AlarmKit
+import SwiftUI
 
-struct FlightAlarmMetadata: AlarmMetadata {
+nonisolated struct FlightAlarmMetadata: AlarmMetadata {
     let flightNumber: String
     let destination: String
     let departureDate: Date
-}
-
-struct FlightAlarmData: AlarmAttributes<FlightAlarmMetadata> {
-    var displayText: String {
-        "\(metadata.flightNumber) \(metadata.destination)行き"
-    }
 }
