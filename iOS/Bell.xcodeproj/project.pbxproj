@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		61B563FC2ED1B8C100E68E9E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61B563FB2ED1B8C100E68E9E /* WidgetKit.framework */; };
+		61B563FE2ED1B8C100E68E9E /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61B563FD2ED1B8C100E68E9E /* SwiftUI.framework */; };
+		61B5640D2ED1B8C200E68E9E /* BellWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 61B563F92ED1B8C100E68E9E /* BellWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		61B563BF2ED1A51900E68E9E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,13 +27,47 @@
 			remoteGlobalIDString = 61B563B02ED1A51800E68E9E;
 			remoteInfo = Bell;
 		};
+		61B5640B2ED1B8C200E68E9E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61B563A92ED1A51800E68E9E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 61B563F82ED1B8C100E68E9E;
+			remoteInfo = BellWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		61B564122ED1B8C200E68E9E /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				61B5640D2ED1B8C200E68E9E /* BellWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		61B563B12ED1A51800E68E9E /* Bell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61B563BE2ED1A51900E68E9E /* BellTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BellTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		61B563C82ED1A51900E68E9E /* BellUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BellUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		61B563F92ED1B8C100E68E9E /* BellWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BellWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		61B563FB2ED1B8C100E68E9E /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		61B563FD2ED1B8C100E68E9E /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		61B5640E2ED1B8C200E68E9E /* Exceptions for "BellWidget" folder in "BellWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 61B563F82ED1B8C100E68E9E /* BellWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		61B563B32ED1A51800E68E9E /* Bell */ = {
@@ -43,6 +83,14 @@
 		61B563CB2ED1A51900E68E9E /* BellUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = BellUITests;
+			sourceTree = "<group>";
+		};
+		61B563FF2ED1B8C100E68E9E /* BellWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				61B5640E2ED1B8C200E68E9E /* Exceptions for "BellWidget" folder in "BellWidgetExtension" target */,
+			);
+			path = BellWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -69,6 +117,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		61B563F62ED1B8C100E68E9E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61B563FE2ED1B8C100E68E9E /* SwiftUI.framework in Frameworks */,
+				61B563FC2ED1B8C100E68E9E /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -78,6 +135,8 @@
 				61B563B32ED1A51800E68E9E /* Bell */,
 				61B563C12ED1A51900E68E9E /* BellTests */,
 				61B563CB2ED1A51900E68E9E /* BellUITests */,
+				61B563FF2ED1B8C100E68E9E /* BellWidget */,
+				61B563FA2ED1B8C100E68E9E /* Frameworks */,
 				61B563B22ED1A51800E68E9E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,8 +147,18 @@
 				61B563B12ED1A51800E68E9E /* Bell.app */,
 				61B563BE2ED1A51900E68E9E /* BellTests.xctest */,
 				61B563C82ED1A51900E68E9E /* BellUITests.xctest */,
+				61B563F92ED1B8C100E68E9E /* BellWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		61B563FA2ED1B8C100E68E9E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				61B563FB2ED1B8C100E68E9E /* WidgetKit.framework */,
+				61B563FD2ED1B8C100E68E9E /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,10 +171,12 @@
 				61B563AD2ED1A51800E68E9E /* Sources */,
 				61B563AE2ED1A51800E68E9E /* Frameworks */,
 				61B563AF2ED1A51800E68E9E /* Resources */,
+				61B564122ED1B8C200E68E9E /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				61B5640C2ED1B8C200E68E9E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				61B563B32ED1A51800E68E9E /* Bell */,
@@ -163,6 +234,28 @@
 			productReference = 61B563C82ED1A51900E68E9E /* BellUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		61B563F82ED1B8C100E68E9E /* BellWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 61B5640F2ED1B8C200E68E9E /* Build configuration list for PBXNativeTarget "BellWidgetExtension" */;
+			buildPhases = (
+				61B563F52ED1B8C100E68E9E /* Sources */,
+				61B563F62ED1B8C100E68E9E /* Frameworks */,
+				61B563F72ED1B8C100E68E9E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				61B563FF2ED1B8C100E68E9E /* BellWidget */,
+			);
+			name = BellWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = BellWidgetExtension;
+			productReference = 61B563F92ED1B8C100E68E9E /* BellWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -184,6 +277,9 @@
 						CreatedOnToolsVersion = 26.1;
 						TestTargetID = 61B563B02ED1A51800E68E9E;
 					};
+					61B563F82ED1B8C100E68E9E = {
+						CreatedOnToolsVersion = 26.1;
+					};
 				};
 			};
 			buildConfigurationList = 61B563AC2ED1A51800E68E9E /* Build configuration list for PBXProject "Bell" */;
@@ -203,6 +299,7 @@
 				61B563B02ED1A51800E68E9E /* Bell */,
 				61B563BD2ED1A51900E68E9E /* BellTests */,
 				61B563C72ED1A51900E68E9E /* BellUITests */,
+				61B563F82ED1B8C100E68E9E /* BellWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -223,6 +320,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		61B563C62ED1A51900E68E9E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		61B563F72ED1B8C100E68E9E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -253,6 +357,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		61B563F52ED1B8C100E68E9E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -265,6 +376,11 @@
 			isa = PBXTargetDependency;
 			target = 61B563B02ED1A51800E68E9E /* Bell */;
 			targetProxy = 61B563C92ED1A51900E68E9E /* PBXContainerItemProxy */;
+		};
+		61B5640C2ED1B8C200E68E9E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 61B563F82ED1B8C100E68E9E /* BellWidgetExtension */;
+			targetProxy = 61B5640B2ED1B8C200E68E9E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -538,6 +654,66 @@
 			};
 			name = Release;
 		};
+		61B564102ED1B8C200E68E9E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4YZQY4C47E;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BellWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BellWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.entaku.Bell.BellWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		61B564112ED1B8C200E68E9E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4YZQY4C47E;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BellWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BellWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.entaku.Bell.BellWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -573,6 +749,15 @@
 			buildConfigurations = (
 				61B563D92ED1A51900E68E9E /* Debug */,
 				61B563DA2ED1A51900E68E9E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		61B5640F2ED1B8C200E68E9E /* Build configuration list for PBXNativeTarget "BellWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				61B564102ED1B8C200E68E9E /* Debug */,
+				61B564112ED1B8C200E68E9E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
