@@ -9,16 +9,6 @@ import ActivityKit
 import WidgetKit
 import SwiftUI
 
-struct FlightAlarmAttributes: ActivityAttributes {
-    public struct ContentState: Codable, Hashable {
-        var flightNumber: String
-        var destination: String
-        var departureDate: Date
-    }
-
-    var flightInfo: String
-}
-
 struct BellWidgetLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: FlightAlarmAttributes.self) { context in
