@@ -26,10 +26,17 @@ class FlightDateParser {
     ]
 
     func parseDate(from text: String) -> Date? {
-        guard let dateString = extractDate(from: text),
-              let timeString = extractTime(from: text) else {
+        guard let dateString = extractDate(from: text) else {
+            print("日付が見つかりません")
             return nil
         }
+
+        guard let timeString = extractTime(from: text) else {
+            print("時刻が見つかりません")
+            return nil
+        }
+
+        print("日付: \(dateString), 時刻: \(timeString)")
 
         return combineDateTime(dateString: dateString, timeString: timeString)
     }

@@ -30,6 +30,10 @@ class TextRecognitionService {
 
         let recognizedText = observations.compactMap { $0.topCandidates(1).first?.string }.joined(separator: " ")
 
+        print("=== 認識したテキスト ===")
+        print(recognizedText)
+        print("=====================")
+
         return extractFlightInfo(from: recognizedText)
     }
 
