@@ -12,7 +12,7 @@ import SwiftUI
 @Observable
 class AlarmViewModel {
     private let alarmManager = AlarmManager.shared
-    var currentAlarmID: String?
+    var currentAlarmID: UUID?
     var isAlarmActive = false
     var errorMessage: String?
 
@@ -30,15 +30,8 @@ class AlarmViewModel {
         }
 
         // Create alarm presentation
-        let stopButton = AlarmButton(
-            text: "確認",
-            textColor: .white,
-            systemImageName: "checkmark.circle"
-        )
-
         let alert = AlarmPresentation.Alert(
-            title: "\(flightInfo.flightNumber) 搭乗時刻です",
-            stopButton: stopButton
+            title: "\(flightInfo.flightNumber) 搭乗時刻です"
         )
 
         let presentation = AlarmPresentation(alert: alert)
@@ -50,13 +43,13 @@ class AlarmViewModel {
 
         let countdownDuration = flightInfo.departureDate.timeIntervalSince(Date())
 
-        let configuration = AlarmConfiguration(
+        let configuration = AlarmManager.AlarmConfiguration(
             countdownDuration: countdownDuration,
             attributes: attributes
         )
 
         do {
-            let alarmID = UUID().uuidString
+            let alarmID = UUID()
             try await alarmManager.schedule(id: alarmID, configuration: configuration)
             currentAlarmID = alarmID
             isAlarmActive = true
