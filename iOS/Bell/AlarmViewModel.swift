@@ -21,12 +21,20 @@ class AlarmViewModel {
     func createAlarm(for flightInfo: ExtractedFlightInfo) async {
         // Request authorization
         do {
+            print("=== AlarmKit認証開始 ===")
             let authStatus = try await alarmManager.requestAuthorization()
+            print("認証ステータス: \(authStatus)")
+
             guard authStatus == .authorized else {
-                errorMessage = "アラームの権限が許可されていません"
+                print("認証が許可されていません: \(authStatus)")
+                errorMessage = "アラームの権限が許可されていません (ステータス: \(authStatus))"
                 return
             }
+
+            print("認証成功")
         } catch {
+            print("認証エラー: \(error)")
+            print("エラー詳細: \(error.localizedDescription)")
             errorMessage = "認証に失敗しました: \(error.localizedDescription)"
             return
         }
@@ -55,7 +63,13 @@ class AlarmViewModel {
 
         do {
             let alarmID = UUID()
+            print("アラームスケジュール開始: \(alarmID)")
+            print("出発時刻: \(flightInfo.departureDate)")
+            print("カウントダウン時間: \(flightInfo.departureDate.timeIntervalSince(Date())) 秒")
+
             try await alarmManager.schedule(id: alarmID, configuration: configuration)
+
+            print("アラーム設定成功")
             currentAlarmID = alarmID
             isAlarmActive = true
             errorMessage = nil
@@ -63,6 +77,8 @@ class AlarmViewModel {
             // Start Live Activity
             await startLiveActivity(for: flightInfo)
         } catch {
+            print("アラーム設定エラー: \(error)")
+            print("エラー詳細: \(error.localizedDescription)")
             errorMessage = "アラームの設定に失敗しました: \(error.localizedDescription)"
             isAlarmActive = false
         }
@@ -99,7 +115,9 @@ class AlarmViewModel {
             errorMessage = nil
 
             // End Live Activity
-            await activity?.end(nil, dismissalPolicy: .immediate)
+            if let activity = activity {
+                await activity.end(nil, dismissalPolicy: .immediate)
+            }
             activity = nil
         } catch {
             errorMessage = "アラームのキャンセルに失敗しました: \(error.localizedDescription)"
