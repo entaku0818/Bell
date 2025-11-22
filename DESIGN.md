@@ -124,12 +124,46 @@ let timePatterns = [
 
 ## 9. 開発スケジュール
 
-| フェーズ | 内容 | 期間 |
-|----------|------|------|
-| Phase 1 | 基本UI + カメラ/写真選択 | 1週間 |
-| Phase 2 | Vision OCR + 日時解析 | 1週間 |
-| Phase 3 | AlarmKit連携 | 1週間 |
-| Phase 4 | Live Activity | 3日 |
-| Phase 5 | テスト・調整 | 3日 |
+| フェーズ | 内容 | 期間 | 状態 |
+|----------|------|------|------|
+| Phase 1 | 基本UI + 写真選択 | 1週間 | ✅ 完了 |
+| Phase 2 | Vision OCR + 日時解析 | 1週間 | ✅ 完了 |
+| Phase 3 | AlarmKit連携 | 1週間 | ✅ 完了 |
+| Phase 4 | Live Activity | 3日 | ✅ 完了 |
+| Phase 5 | テスト・調整 | 3日 | ✅ 完了 |
 
 **合計: 約4週間**
+
+---
+
+## 10. 実装済み機能
+
+### Phase 1: 基本UI + 写真選択
+- ✅ PhotosPickerで写真選択
+- ✅ 選択した画像のプレビュー表示
+- ✅ ナビゲーションとレイアウト
+
+### Phase 2: Vision OCR + 日時解析
+- ✅ TextRecognitionServiceによる文字認識
+- ✅ FlightDateParserで日時抽出
+- ✅ 複数の日付・時刻フォーマット対応
+- ✅ 便名・行き先・ゲート番号の抽出
+- ✅ 認識結果のカード表示
+
+### Phase 3: AlarmKit連携
+- ✅ FlightAlarmDataでメタデータ管理
+- ✅ AlarmViewModelでアラーム制御
+- ✅ 2時間前アラーム自動設定
+- ✅ アラームキャンセル機能
+- ✅ スヌーズ機能
+
+### Phase 4: Live Activity
+- ✅ ActivityKit統合
+- ✅ カウントダウンタイマー表示
+- ✅ アラート時のアクションボタン
+- ✅ ロック画面/Dynamic Island対応
+
+### Phase 5: テスト・調整
+- ✅ README.md作成
+- ✅ ドキュメント整備
+- ✅ エラーハンドリング
