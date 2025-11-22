@@ -41,10 +41,12 @@ class AlarmViewModel {
             tintColor: .blue
         )
 
-        let countdownDuration = flightInfo.departureDate.timeIntervalSince(Date())
+        let duration = Alarm.CountdownDuration(
+            preAlert: flightInfo.departureDate.timeIntervalSince(Date())
+        )
 
         let configuration = AlarmManager.AlarmConfiguration(
-            countdownDuration: countdownDuration,
+            countdownDuration: duration,
             attributes: attributes
         )
 
