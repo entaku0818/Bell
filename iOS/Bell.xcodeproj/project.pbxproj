@@ -67,11 +67,29 @@
 			);
 			target = 61B563F82ED1B8C100E68E9E /* BellWidgetExtension */;
 		};
+		61B564162ED1BAA300E68E9E /* Exceptions for "Bell" folder in "BellWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				FlightAlarmAttributes.swift,
+			);
+			target = 61B563F82ED1B8C100E68E9E /* BellWidgetExtension */;
+		};
+		61B564182ED1BE9A00E68E9E /* Exceptions for "Bell" folder in "Bell" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 61B563B02ED1A51800E68E9E /* Bell */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		61B563B32ED1A51800E68E9E /* Bell */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				61B564182ED1BE9A00E68E9E /* Exceptions for "Bell" folder in "Bell" target */,
+				61B564162ED1BAA300E68E9E /* Exceptions for "Bell" folder in "BellWidgetExtension" target */,
+			);
 			path = Bell;
 			sourceTree = "<group>";
 		};
@@ -516,6 +534,7 @@
 				DEVELOPMENT_TEAM = 4YZQY4C47E;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Bell/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -548,6 +567,7 @@
 				DEVELOPMENT_TEAM = 4YZQY4C47E;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Bell/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
