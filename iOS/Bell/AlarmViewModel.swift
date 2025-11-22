@@ -8,6 +8,7 @@
 import Foundation
 import AlarmKit
 import SwiftUI
+import ActivityKit
 
 @Observable
 class AlarmViewModel {
@@ -15,6 +16,7 @@ class AlarmViewModel {
     var currentAlarmID: UUID?
     var isAlarmActive = false
     var errorMessage: String?
+    var activity: Activity<FlightAlarmAttributes>?
 
     func createAlarm(for flightInfo: ExtractedFlightInfo) async {
         // Request authorization
@@ -57,9 +59,33 @@ class AlarmViewModel {
             currentAlarmID = alarmID
             isAlarmActive = true
             errorMessage = nil
+
+            // Start Live Activity
+            await startLiveActivity(for: flightInfo)
         } catch {
             errorMessage = "アラームの設定に失敗しました: \(error.localizedDescription)"
             isAlarmActive = false
+        }
+    }
+
+    private func startLiveActivity(for flightInfo: ExtractedFlightInfo) async {
+        let attributes = FlightAlarmAttributes(
+            flightInfo: "\(flightInfo.flightNumber) \(flightInfo.destination)行き"
+        )
+
+        let contentState = FlightAlarmAttributes.ContentState(
+            flightNumber: flightInfo.flightNumber,
+            destination: flightInfo.destination,
+            departureDate: flightInfo.departureDate
+        )
+
+        do {
+            activity = try Activity.request(
+                attributes: attributes,
+                content: .init(state: contentState, staleDate: nil)
+            )
+        } catch {
+            errorMessage = "Live Activityの開始に失敗しました: \(error.localizedDescription)"
         }
     }
 
@@ -71,6 +97,10 @@ class AlarmViewModel {
             currentAlarmID = nil
             isAlarmActive = false
             errorMessage = nil
+
+            // End Live Activity
+            await activity?.end(nil, dismissalPolicy: .immediate)
+            activity = nil
         } catch {
             errorMessage = "アラームのキャンセルに失敗しました: \(error.localizedDescription)"
         }
