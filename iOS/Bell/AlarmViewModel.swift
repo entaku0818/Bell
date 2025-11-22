@@ -12,28 +12,44 @@ import ActivityKit
 
 @Observable
 class AlarmViewModel {
-    var alarmSession: AlarmSession?
+    private let alarmManager = AlarmManager.shared
+    var currentAlarmID: String?
     var isAlarmActive = false
     var errorMessage: String?
     var activity: Activity<FlightAlarmAttributes>?
 
     func createAlarm(for flightInfo: ExtractedFlightInfo) async {
-        let metadata = FlightAlarmData(
+        // Request authorization
+        do {
+            let authStatus = try await alarmManager.requestAuthorization()
+            guard authStatus == .authorized else {
+                errorMessage = "アラームの権限が許可されていません"
+                return
+            }
+        } catch {
+            errorMessage = "認証に失敗しました: \(error.localizedDescription)"
+            return
+        }
+
+        let metadata = FlightAlarmMetadata(
             flightNumber: flightInfo.flightNumber,
             destination: flightInfo.destination,
             departureDate: flightInfo.departureDate
         )
 
+        let attributes = FlightAlarmData(metadata: metadata)
+
+        let countdownDuration = flightInfo.departureDate.timeIntervalSince(Date())
+
         let configuration = AlarmConfiguration(
-            scheduledTime: flightInfo.alarmDate,
-            metadata: metadata
+            countdownDuration: countdownDuration,
+            attributes: attributes
         )
-        configuration.tintColor = .blue
-        configuration.preAlert = 600
-        configuration.postAlert = 300
 
         do {
-            alarmSession = try await AlarmSession.create(configuration: configuration)
+            let alarmID = UUID().uuidString
+            try await alarmManager.schedule(id: alarmID, configuration: configuration)
+            currentAlarmID = alarmID
             isAlarmActive = true
             errorMessage = nil
 
@@ -67,11 +83,11 @@ class AlarmViewModel {
     }
 
     func cancelAlarm() async {
-        guard let session = alarmSession else { return }
+        guard let alarmID = currentAlarmID else { return }
 
         do {
-            try await session.cancel()
-            alarmSession = nil
+            try await alarmManager.stop(id: alarmID)
+            currentAlarmID = nil
             isAlarmActive = false
             errorMessage = nil
 
@@ -79,16 +95,6 @@ class AlarmViewModel {
             activity = nil
         } catch {
             errorMessage = "アラームのキャンセルに失敗しました: \(error.localizedDescription)"
-        }
-    }
-
-    func snoozeAlarm(duration: TimeInterval) async {
-        guard let session = alarmSession else { return }
-
-        do {
-            try await session.snooze(duration: duration)
-        } catch {
-            errorMessage = "スヌーズに失敗しました: \(error.localizedDescription)"
         }
     }
 }

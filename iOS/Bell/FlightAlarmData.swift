@@ -8,12 +8,14 @@
 import Foundation
 import AlarmKit
 
-struct FlightAlarmData: AlarmMetadata {
+struct FlightAlarmMetadata: AlarmMetadata {
     let flightNumber: String
     let destination: String
     let departureDate: Date
+}
 
+struct FlightAlarmData: AlarmAttributes<FlightAlarmMetadata> {
     var displayText: String {
-        "\(flightNumber) \(destination)行き"
+        "\(metadata.flightNumber) \(metadata.destination)行き"
     }
 }

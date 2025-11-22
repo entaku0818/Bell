@@ -16,6 +16,23 @@
 - iOS 26.0以上
 - Xcode 16.0以上
 
+## セットアップ
+
+### Info.plist設定
+
+AlarmKitを使用するには、Info.plistに以下のキーを追加する必要があります：
+
+```xml
+<key>NSAlarmKitUsageDescription</key>
+<string>搭乗時刻の2時間前にアラームを設定するために、AlarmKitへのアクセスが必要です。</string>
+```
+
+または、Xcodeのプロジェクト設定から：
+1. プロジェクトナビゲータでBellプロジェクトを選択
+2. Bellターゲットを選択
+3. Info タブを開く
+4. カスタムiOS ターゲットプロパティに「Privacy - AlarmKit Usage Description」を追加
+
 ## 使い方
 
 1. **写真を選択**
