@@ -42,10 +42,11 @@ class AlarmViewModel {
         )
 
         let duration = Alarm.CountdownDuration(
-            preAlert: flightInfo.departureDate.timeIntervalSince(Date())
+            preAlert: flightInfo.departureDate.timeIntervalSince(Date()),
+            postAlert: 300  // 5 minutes post-alert
         )
 
-        let configuration = AlarmManager.AlarmConfiguration(
+        let configuration = AlarmManager.AlarmConfiguration<FlightAlarmMetadata>(
             countdownDuration: duration,
             attributes: attributes
         )
