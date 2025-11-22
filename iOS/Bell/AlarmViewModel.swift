@@ -51,13 +51,11 @@ class AlarmViewModel {
             tintColor: .blue
         )
 
-        let duration = Alarm.CountdownDuration(
-            preAlert: flightInfo.departureDate.timeIntervalSince(Date()),
-            postAlert: 300  // 5 minutes post-alert
-        )
+        // Use fixed schedule for specific departure time (2 hours before)
+        let schedule = Alarm.Schedule.fixed(flightInfo.alarmDate)
 
-        let configuration = AlarmManager.AlarmConfiguration<FlightAlarmMetadata>(
-            countdownDuration: duration,
+        let configuration = AlarmManager.AlarmConfiguration<FlightAlarmMetadata>.alarm(
+            schedule: schedule,
             attributes: attributes
         )
 
