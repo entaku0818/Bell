@@ -150,27 +150,12 @@ struct ContentView: View {
                         await alarmViewModel.createSoundTestTimer()
                     }
                 }) {
-                    Label("音テスト (5秒)", systemImage: "speaker.wave.3.fill")
+                    Label("音テスト (10秒)", systemImage: "speaker.wave.3.fill")
                         .font(.headline)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.red)
-                        .cornerRadius(12)
-                }
-                .padding(.horizontal)
-
-                Button(action: {
-                    Task {
-                        await alarmViewModel.playForcedSound()
-                    }
-                }) {
-                    Label("3秒後に音を鳴らす", systemImage: "speaker.wave.2.fill")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.purple)
                         .cornerRadius(12)
                 }
                 .padding(.horizontal)
@@ -184,19 +169,6 @@ struct ContentView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.gray)
-                        .cornerRadius(12)
-                }
-                .padding(.horizontal)
-
-                Button(action: {
-                    alarmViewModel.checkDeviceState()
-                }) {
-                    Label("デバイス状態を確認", systemImage: "info.circle")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
                         .cornerRadius(12)
                 }
                 .padding(.horizontal)

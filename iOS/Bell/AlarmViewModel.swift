@@ -161,6 +161,7 @@ class AlarmViewModel {
     }
 
     func create10MinuteTimer() async {
+
         // Request authorization
         do {
             print("=== 3分タイマー設定開始 ===")
@@ -261,6 +262,9 @@ class AlarmViewModel {
     }
 
     func createSoundTestTimer() async {
+        // Cancel all existing alarms first
+        await cancelAllAlarms()
+
         // Request authorization
         do {
             print("=== 音テスト開始 ===")
@@ -303,15 +307,15 @@ class AlarmViewModel {
 
             try await alarmManager.schedule(id: alarmID, configuration: configuration)
 
-            print("音テスト設定成功 - 5秒後に音が鳴ります")
+            print("音テスト設定成功 - 10秒後に音が鳴ります")
             errorMessage = nil
 
             // Add to alarms list
-            let fireDate = Date().addingTimeInterval(5)
+            let fireDate = Date().addingTimeInterval(10)
             let alarmInfo = AlarmInfo(
                 id: alarmID,
                 flightNumber: "🔊 音テスト",
-                destination: "5秒",
+                destination: "10秒",
                 departureDate: fireDate,
                 alarmDate: fireDate
             )
@@ -465,17 +469,35 @@ class AlarmViewModel {
     func cancelAllAlarms() async {
         print("=== 全アラームをキャンセル ===")
 
-        // Cancel all alarms in the list
-        for alarm in alarms {
-            do {
-                try alarmManager.cancel(id: alarm.id)
-                print("アラームキャンセル: \(alarm.flightNumber)")
-            } catch {
-                print("アラームキャンセル失敗: \(alarm.id) - \(error)")
-            }
+        // First, get the actual list of alarms from AlarmKit
+        let actualAlarms: [Alarm]
+        do {
+            actualAlarms = try alarmManager.alarms
+            print("AlarmKit に実際に存在するアラーム数: \(actualAlarms.count)")
+        } catch {
+            print("アラーム一覧取得エラー: \(error)")
+            actualAlarms = []
         }
 
-        let canceledCount = alarms.count
+        // Get IDs of alarms that actually exist in the system
+        let existingIDs = Set(actualAlarms.map { $0.id })
+
+        var canceledCount = 0
+
+        // Cancel all alarms in the list that still exist in the system
+        for alarm in alarms {
+            if existingIDs.contains(alarm.id) {
+                do {
+                    try alarmManager.cancel(id: alarm.id)
+                    print("アラームキャンセル: \(alarm.flightNumber)")
+                    canceledCount += 1
+                } catch {
+                    print("アラームキャンセル失敗: \(alarm.flightNumber) - \(error)")
+                }
+            } else {
+                print("アラーム \(alarm.flightNumber) は既に終了済み（スキップ）")
+            }
+        }
 
         // Clear the list
         alarms.removeAll()
@@ -488,6 +510,8 @@ class AlarmViewModel {
         }
 
         print("全アラームをキャンセル完了")
-        errorMessage = "✅ \(canceledCount)個のアラームをキャンセルしました"
+        if canceledCount > 0 {
+            errorMessage = "✅ \(canceledCount)個のアラームをキャンセルしました"
+        }
     }
 }
