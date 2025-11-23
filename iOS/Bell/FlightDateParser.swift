@@ -37,14 +37,16 @@ class FlightDateParser {
             print("日付: \(dateString), 時刻: \(timeString)")
             return combineDateTime(dateString: dateString, timeString: timeString)
         } else {
-            print("日付が見つかりません。今日の日付を使用します")
+            print("日付が見つかりません。明日の日付を使用します")
             print("時刻: \(timeString)")
-            return combineTodayWithTime(timeString: timeString)
+            return combineTomorrowWithTime(timeString: timeString)
         }
     }
 
-    private func combineTodayWithTime(timeString: String) -> Date? {
-        var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+    private func combineTomorrowWithTime(timeString: String) -> Date? {
+        // Get tomorrow's date
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
+        var components = Calendar.current.dateComponents([.year, .month, .day], from: tomorrow)
 
         if timeString.contains(":") {
             let parts = timeString.split(separator: ":").map { String($0) }
