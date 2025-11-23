@@ -130,10 +130,32 @@ struct ContentView: View {
                 }
                 .padding(.horizontal)
 
+                Button(action: {
+                    Task {
+                        await alarmViewModel.create10MinuteTimer()
+                    }
+                }) {
+                    Label("10分タイマー", systemImage: "timer")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.orange)
+                        .cornerRadius(12)
+                }
+                .padding(.horizontal)
+
                 Spacer()
             }
             .padding()
             .navigationTitle("BoardingBell")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: AlarmListView(alarmViewModel: alarmViewModel)) {
+                        Label("アラーム一覧", systemImage: "list.bullet")
+                    }
+                }
+            }
             .sheet(isPresented: $showEditSheet) {
                 if let info = flightInfo {
                     FlightInfoEditView(flightInfo: $flightInfo)

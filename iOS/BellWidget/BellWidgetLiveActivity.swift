@@ -27,7 +27,7 @@ struct BellWidgetLiveActivity: Widget {
                 HStack {
                     Text("搭乗まで")
                         .font(.caption)
-                    Text(timeRemaining(until: context.state.departureDate))
+                    Text(context.state.departureDate, style: .timer)
                         .font(.title2)
                         .fontWeight(.bold)
                         .monospacedDigit()
@@ -51,15 +51,16 @@ struct BellWidgetLiveActivity: Widget {
                     HStack {
                         Text("搭乗まで")
                             .font(.caption)
-                        Text(timeRemaining(until: context.state.departureDate))
+                        Text(context.state.departureDate, style: .timer)
                             .font(.title3)
                             .fontWeight(.bold)
+                            .monospacedDigit()
                     }
                 }
             } compactLeading: {
                 Image(systemName: "airplane.departure")
             } compactTrailing: {
-                Text(timeRemaining(until: context.state.departureDate))
+                Text(context.state.departureDate, style: .timer)
                     .font(.caption)
                     .monospacedDigit()
             } minimal: {
@@ -67,21 +68,6 @@ struct BellWidgetLiveActivity: Widget {
             }
             .keylineTint(Color.blue)
         }
-    }
-
-    private func timeRemaining(until date: Date) -> String {
-        let now = Date()
-        let remaining = date.timeIntervalSince(now)
-
-        if remaining <= 0 {
-            return "00:00:00"
-        }
-
-        let hours = Int(remaining) / 3600
-        let minutes = (Int(remaining) % 3600) / 60
-        let seconds = Int(remaining) % 60
-
-        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
 }
 

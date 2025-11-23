@@ -4,5 +4,7 @@
 <dict>
 	<key>NSAlarmKitUsageDescription</key>
 	<string>搭乗時刻時間前にアラームを設定するために使用します</string>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
 </dict>
 </plist>
