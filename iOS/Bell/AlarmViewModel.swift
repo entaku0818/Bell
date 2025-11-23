@@ -281,9 +281,17 @@ class AlarmViewModel {
             return
         }
 
-        // Create alarm presentation
+        // Create alarm presentation with secondary button
+        let secondaryButton = AlarmButton(
+            text: "リピート",
+            textColor: .blue,
+            systemImageName: "repeat"
+        )
+
         let alert = AlarmPresentation.Alert(
-            title: "🔊 音テスト！"
+            title: "🔊 音テスト！",
+            secondaryButton: secondaryButton,
+            secondaryButtonBehavior: .countdown
         )
 
         let presentation = AlarmPresentation(alert: alert)
@@ -293,10 +301,10 @@ class AlarmViewModel {
             tintColor: .red
         )
 
-        // Use timer for 5 seconds
+        // Use timer for 10 seconds
         // Remove sound parameter to use system default
         let configuration = AlarmManager.AlarmConfiguration.timer(
-            duration: 5,
+            duration: 10,
             attributes: attributes
         )
 
