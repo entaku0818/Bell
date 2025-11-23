@@ -19,7 +19,6 @@ class AlarmViewModel {
     var errorMessage: String?
     var activity: Activity<FlightAlarmAttributes>?
     var alarms: [AlarmInfo] = []
-    private var audioPlayer: AVAudioPlayer?
     var currentVolume: Float = 0.0
 
     struct AlarmInfo: Identifiable {
@@ -327,81 +326,6 @@ class AlarmViewModel {
         }
     }
 
-    func playForcedSound() async {
-        print("=== 3秒タイマー開始 ===")
-
-        // Cancel all existing alarms first
-        await cancelAllAlarms()
-
-        // Check volume first
-        checkVolume()
-
-        if currentVolume == 0 {
-            errorMessage = "⚠️ 音量が0%です！\n\nデバイス側面の音量ボタン（+）を押して音量を上げてください"
-            return
-        }
-
-        // Request authorization
-        do {
-            let authStatus = try await alarmManager.requestAuthorization()
-            print("認証ステータス: \(authStatus)")
-
-            guard authStatus == .authorized else {
-                print("認証が許可されていません: \(authStatus)")
-                errorMessage = "アラームの権限が許可されていません"
-                return
-            }
-        } catch {
-            print("認証エラー: \(error)")
-            errorMessage = "認証に失敗しました: \(error.localizedDescription)"
-            return
-        }
-
-        // Create alarm presentation
-        let alert = AlarmPresentation.Alert(
-            title: "🔊 音が鳴りました！"
-        )
-
-        let presentation = AlarmPresentation(alert: alert)
-
-        let attributes = AlarmAttributes<FlightAlarmMetadata>(
-            presentation: presentation,
-            tintColor: .purple
-        )
-
-        // Use timer for 3 seconds
-        // Remove sound parameter to use system default
-        let configuration = AlarmManager.AlarmConfiguration.timer(
-            duration: 3,
-            attributes: attributes
-        )
-
-        do {
-            let alarmID = UUID()
-            print("3秒タイマースケジュール開始: \(alarmID)")
-
-            try await alarmManager.schedule(id: alarmID, configuration: configuration)
-
-            print("3秒タイマー設定成功 - 3秒後に音が鳴ります")
-            errorMessage = "⏱️ 3秒後に音が鳴ります（音量: \(Int(currentVolume * 100))%）"
-
-            // Add to alarms list
-            let fireDate = Date().addingTimeInterval(3)
-            let alarmInfo = AlarmInfo(
-                id: alarmID,
-                flightNumber: "🔊 3秒タイマー",
-                destination: "即座",
-                departureDate: fireDate,
-                alarmDate: fireDate
-            )
-            alarms.append(alarmInfo)
-        } catch {
-            print("3秒タイマー設定エラー: \(error)")
-            print("エラー詳細: \(error.localizedDescription)")
-            errorMessage = "タイマーの設定に失敗しました: \(error.localizedDescription)"
-        }
-    }
-
     func checkVolume() {
         let audioSession = AVAudioSession.sharedInstance()
         currentVolume = audioSession.outputVolume
@@ -414,56 +338,6 @@ class AlarmViewModel {
         } else {
             errorMessage = "✅ 音量: \(Int(currentVolume * 100))%"
         }
-    }
-
-    func checkDeviceState() {
-        print("\n=== デバイス状態チェック ===")
-
-        let audioSession = AVAudioSession.sharedInstance()
-
-        // 音量
-        currentVolume = audioSession.outputVolume
-        print("📊 音量: \(Int(currentVolume * 100))%")
-
-        // オーディオカテゴリ
-        print("🎵 オーディオカテゴリ: \(audioSession.category.rawValue)")
-        print("🎵 オーディオモード: \(audioSession.mode.rawValue)")
-
-        // オーディオ出力先
-        let currentRoute = audioSession.currentRoute
-        print("🔊 出力先: \(currentRoute.outputs.first?.portName ?? "不明")")
-        print("🔊 出力タイプ: \(currentRoute.outputs.first?.portType.rawValue ?? "不明")")
-
-        // 他のオーディオが再生中か
-        print("🎧 他のアプリの音声再生中: \(audioSession.isOtherAudioPlaying)")
-
-        // セカンダリオーディオ
-        print("🎧 セカンダリオーディオ: \(audioSession.secondaryAudioShouldBeSilencedHint)")
-
-        // サイレントモード（間接的に推測）
-        // 注: 直接チェックする API は存在しないため、音量とオーディオセッションから推測
-        if currentVolume > 0 {
-            print("🔔 サイレントスイッチ: おそらくOFF（音量が設定されている）")
-        } else {
-            print("🔕 サイレントスイッチ: 不明（音量0または判定不可）")
-        }
-
-        // おやすみモード
-        print("⚠️ おやすみモード: 直接確認不可（iOS制限）")
-        print("💡 ヒント: 設定 > 集中モード で確認してください")
-
-        print("======================\n")
-
-        // 結果をメッセージに表示
-        var message = "デバイス状態:\n"
-        message += "音量: \(Int(currentVolume * 100))%\n"
-        message += "出力先: \(currentRoute.outputs.first?.portName ?? "不明")\n"
-
-        if currentVolume == 0 {
-            message += "\n⚠️ 音量が0です"
-        }
-
-        errorMessage = message
     }
 
     func cancelAllAlarms() async {
