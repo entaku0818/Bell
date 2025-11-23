@@ -76,8 +76,8 @@ class AlarmViewModel {
             print("出発時刻: \(flightInfo.departureDate)")
             print("カウントダウン時間: \(flightInfo.departureDate.timeIntervalSince(Date())) 秒")
 
-            try await alarmManager.schedule(id: alarmID, configuration: configuration)
-
+            let alarm = try await alarmManager.schedule(id: alarmID, configuration: configuration)
+            print("アラーム内容: \(alarm)")
             print("アラーム設定成功")
             currentAlarmID = alarmID
             isAlarmActive = true
@@ -201,8 +201,8 @@ class AlarmViewModel {
             let alarmID = UUID()
             print("3分タイマースケジュール開始: \(alarmID)")
 
-            try await alarmManager.schedule(id: alarmID, configuration: configuration)
-
+            let alarm = try await alarmManager.schedule(id: alarmID, configuration: configuration)
+            print("アラーム内容: \(alarm)")
             print("タイマー設定成功")
             errorMessage = nil
 
@@ -304,8 +304,8 @@ class AlarmViewModel {
             let alarmID = UUID()
             print("音テストタイマースケジュール開始: \(alarmID)")
 
-            try await alarmManager.schedule(id: alarmID, configuration: configuration)
-
+            let alarm = try await alarmManager.schedule(id: alarmID, configuration: configuration)
+            print("アラーム内容: \(alarm)")
             print("音テスト設定成功 - 10秒後に音が鳴ります")
             errorMessage = nil
 
